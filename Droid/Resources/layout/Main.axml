@@ -9,25 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:background="@android:color/holo_orange_light"
-        android:minWidth="25px"
-        android:minHeight="25px">
-        <TextView
-            android:text="Angles"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/txtAngles"
-            android:textColor="#ff000000"
-            android:gravity="center"
-            android:paddingLeft="30dp" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="8"
+        android:layout_weight="9"
         android:orientation="horizontal"
         android:id="@+id/llCanvas" />
     <LinearLayout
@@ -35,7 +17,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal"
-        android:background="@android:color/holo_green_dark"
+        android:background="#ffffffff"
         android:minWidth="25px"
         android:minHeight="25px">
         <Button

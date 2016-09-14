@@ -17,10 +17,10 @@ namespace AngleXplore.Droid
 {
 	public class DrawView : View//, View.IOnTouchListener
 	{
-		int status = 0; //0-none, 1-clear, 2-pt1 down, 
+		public int status = 0; //0-none, 1-clear, 2-pt1 down, -1 clear
 		float strokeWidth = 60, length = 50;
 		PointF pt1, pt2, pt1a, pt1b, pt2a, pt2b;
-
+		public bool showAngles = false;
 
 		public DrawView(Context context) :
 			base(context)
@@ -37,9 +37,13 @@ namespace AngleXplore.Droid
 		public string getAngles()
 		{
 
+
 			float A = (float)(Math.Atan2(pt1a.Y - pt1b.Y, pt1a.X - pt1b.X)*360/Math.PI);
 
 			float B = (float)(Math.Atan2(pt2a.Y - pt2b.Y, pt2a.X - pt2b.X)*360/Math.PI);
+
+
+
 			return "m < A = " + A + "    m < B = " + B;
 		}
 
@@ -114,6 +118,7 @@ namespace AngleXplore.Droid
 
 		protected override void OnDraw(Canvas canvas)
 		{
+			
 			if (status == 1)
 			{
 				Paint paint = new Paint();
@@ -176,7 +181,17 @@ namespace AngleXplore.Droid
 				//Log.Debug("AngleXPlore", "status:3");
 
 			}
+			if (showAngles)
+			{
+				Paint paint = new Paint();
+				paint.SetStyle(Paint.Style.Fill);
+				paint.Color = Color.Black;
+				//paint.StrokeWidth = (float)(strokeWidth / 2.5);
+				paint.TextSize = 30;
+				paint.TextAlign = Paint.Align.Left;
 
+				canvas.DrawText(getAngles(), 50, 50, paint);
+			}
 
 			//_shape.Draw(canvas);
 
@@ -264,6 +279,14 @@ namespace AngleXplore.Droid
 					}
 					else if (status == 4)
 					{
+						float xdiff = pt2.X - e.GetX();
+						float ydiff = pt2.Y - e.GetY();
+						pt2a.X -= xdiff;
+						pt2a.Y -= ydiff;
+						pt2b.X -= xdiff;
+						pt2b.Y -= ydiff;
+
+
 						pt2.X = e.GetX();
 
 						pt2.Y = e.GetY();

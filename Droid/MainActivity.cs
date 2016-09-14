@@ -10,8 +10,8 @@ namespace AngleXplore.Droid
 	         Theme = "@android:style/Theme.Black.NoTitleBar.Fullscreen")]
 	public class MainActivity : Activity
 	{
-		
 
+		bool show = false;
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
@@ -31,8 +31,24 @@ namespace AngleXplore.Droid
 			Button btnAngles = FindViewById<Button>(Resource.Id.btnAngles);
 			btnAngles.Click += delegate
 			{
-				TextView angles = FindViewById<TextView>(Resource.Id.txtAngles);
-				angles.Text = canvas.getAngles();
+				if (!show)
+				{
+					
+					show = true;
+					btnAngles.Text = "Hide Angle Measurements";
+					canvas.showAngles = true;
+					canvas.status = 3;
+					canvas.Invalidate();
+				}
+				else {
+					
+					btnAngles.Text = "Show Angle Measurements";
+					show = false;
+					canvas.showAngles = false;
+					canvas.status = 3;
+					canvas.Invalidate();
+				}
+				
 			};
 		}
 	}
