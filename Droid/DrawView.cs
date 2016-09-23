@@ -19,7 +19,7 @@ namespace AngleXplore.Droid
 	{
 		public int status = 0; //0-none, 1-clear, 2-pt1 down, -1 clear
 		public int moveStatus = 0;
-		float strokeWidth = 100, length = 50;
+		float strokeWidth = 100, length = 100, multiplier = 1.2f;
 		PointF pt1, pt2, pt1a, pt1b, pt2a, pt2b;
 		public bool showAngles = false;
 		Context context;
@@ -161,7 +161,7 @@ namespace AngleXplore.Droid
 			{
 				Paint paint = new Paint();
 				paint.Color = Color.Black;
-				paint.SetStyle(Paint.Style.Stroke);
+				paint.SetStyle(Paint.Style.FillAndStroke);
 				paint.StrokeWidth = strokeWidth;
 				int width = canvas.ClipBounds.Width();
 				int height = canvas.ClipBounds.Height();
@@ -180,6 +180,16 @@ namespace AngleXplore.Droid
 				canvas.DrawLine(pt2.X, pt2.Y, pt2a.X, pt2a.Y, paint);
 				canvas.DrawLine(pt2.X, pt2.Y, pt2b.X, pt2b.Y, paint);
 
+				paint.Color = Color.Yellow;
+				canvas.DrawCircle(pt1a.X, pt1a.Y, (float)(strokeWidth / 2.5), paint);
+				paint.Color = Color.Violet;
+				canvas.DrawCircle(pt1b.X, pt1b.Y, (float)(strokeWidth / 2.5), paint);
+
+				paint.Color = Color.Pink;
+				canvas.DrawCircle(pt2a.X, pt2a.Y, (float)(strokeWidth / 2.5), paint);
+				paint.Color = Color.Cyan;
+				canvas.DrawCircle(pt2b.X, pt2b.Y, (float)(strokeWidth / 2.5), paint);
+
 				Log.Debug("AngleXPlore", "status:0");
 
 			}
@@ -192,7 +202,7 @@ namespace AngleXplore.Droid
 
 
 				paint.Color = Color.Black;
-				paint.SetStyle(Paint.Style.Stroke);
+				paint.SetStyle(Paint.Style.FillAndStroke);
 				paint.StrokeWidth = strokeWidth;
 				canvas.DrawPoint(pt1.X, pt1.Y, paint);
 				canvas.DrawPoint(pt2.X, pt2.Y, paint);
@@ -203,6 +213,18 @@ namespace AngleXplore.Droid
 				canvas.DrawLine(pt1.X, pt1.Y, pt1b.X, pt1b.Y, paint);
 				canvas.DrawLine(pt2.X, pt2.Y, pt2a.X, pt2a.Y, paint);
 				canvas.DrawLine(pt2.X, pt2.Y, pt2b.X, pt2b.Y, paint);
+
+				paint.Color = Color.Yellow;
+				canvas.DrawCircle(pt1a.X, pt1a.Y, (float)(strokeWidth / 2.5), paint);
+				paint.Color = Color.Violet;
+				canvas.DrawCircle(pt1b.X, pt1b.Y, (float)(strokeWidth / 2.5), paint);
+
+				paint.Color = Color.Pink;
+				canvas.DrawCircle(pt2a.X, pt2a.Y, (float)(strokeWidth / 2.5), paint);
+				paint.Color = Color.Cyan;
+				canvas.DrawCircle(pt2b.X, pt2b.Y, (float)(strokeWidth / 2.5), paint);
+
+
 				status = -1;
 				//Log.Debug("AngleXPlore", "status:3");
 
@@ -216,7 +238,7 @@ namespace AngleXplore.Droid
 
 
 				paint.Color = Color.Black;
-				paint.SetStyle(Paint.Style.Stroke);
+				paint.SetStyle(Paint.Style.FillAndStroke);
 				paint.StrokeWidth = strokeWidth;
 				canvas.DrawPoint(pt1.X, pt1.Y, paint);
 				canvas.DrawPoint(pt2.X, pt2.Y, paint);
@@ -227,6 +249,17 @@ namespace AngleXplore.Droid
 				canvas.DrawLine(pt1.X, pt1.Y, pt1b.X, pt1b.Y, paint);
 				canvas.DrawLine(pt2.X, pt2.Y, pt2a.X, pt2a.Y, paint);
 				canvas.DrawLine(pt2.X, pt2.Y, pt2b.X, pt2b.Y, paint);
+
+				paint.Color = Color.Yellow;
+				canvas.DrawCircle(pt1a.X, pt1a.Y, (float)(strokeWidth / 2.5), paint);
+				paint.Color = Color.Violet;
+				canvas.DrawCircle(pt1b.X, pt1b.Y, (float)(strokeWidth / 2.5), paint);
+
+				paint.Color = Color.Pink;
+				canvas.DrawCircle(pt2a.X, pt2a.Y, (float)(strokeWidth / 2.5), paint);
+				paint.Color = Color.Cyan;
+				canvas.DrawCircle(pt2b.X, pt2b.Y, (float)(strokeWidth / 2.5), paint);
+
 
 				//Log.Debug("AngleXPlore", "status:3");
 
@@ -241,7 +274,7 @@ namespace AngleXplore.Droid
 
 
 				paint.Color = Color.Black;
-				paint.SetStyle(Paint.Style.Stroke);
+				paint.SetStyle(Paint.Style.FillAndStroke);
 				paint.StrokeWidth = strokeWidth;
 				canvas.DrawPoint(pt1.X, pt1.Y, paint);
 				canvas.DrawPoint(pt2.X, pt2.Y, paint);
@@ -252,6 +285,18 @@ namespace AngleXplore.Droid
 				canvas.DrawLine(pt1.X, pt1.Y, pt1b.X, pt1b.Y, paint);
 				canvas.DrawLine(pt2.X, pt2.Y, pt2a.X, pt2a.Y, paint);
 				canvas.DrawLine(pt2.X, pt2.Y, pt2b.X, pt2b.Y, paint);
+
+				paint.Color = Color.Yellow;
+				canvas.DrawCircle(pt1a.X, pt1a.Y, (float)(strokeWidth / 2.5), paint);
+				paint.Color = Color.Violet;
+				canvas.DrawCircle(pt1b.X, pt1b.Y, (float)(strokeWidth / 2.5), paint);
+
+				paint.Color = Color.Pink;
+				canvas.DrawCircle(pt2a.X, pt2a.Y, (float)(strokeWidth / 2.5), paint);
+				paint.Color = Color.Cyan;
+				canvas.DrawCircle(pt2b.X, pt2b.Y, (float)(strokeWidth / 2.5), paint);
+
+
 				moveStatus = 0;
 			}
 
@@ -502,13 +547,18 @@ namespace AngleXplore.Droid
 					}
 					else if (status == 6)
 					{
-						pt1a.X = e.GetX();
 
-						pt1a.Y = e.GetY();
+							pt1a.X = e.GetX();
+
+							pt1a.Y = e.GetY();
+
+
 
 
 						moveStatus = 1;
-						System.Console.WriteLine("Ray1 is being dragged");
+						double angle = (double)(Math.Atan2(e.GetY() - pt1.Y, e.GetX() - pt1.X) * 180 / Math.PI);
+
+						System.Console.WriteLine("Ray1 is being dragged at angle:" + angle);
 						this.Invalidate();
 
 					}
@@ -592,7 +642,7 @@ namespace AngleXplore.Droid
 					else if (status == 6)
 					{
 
-						float lengthRay = (float)(Math.Sqrt(Math.Pow(e.GetX() - pt1.X, 2) + Math.Pow(e.GetY() - pt1.Y,2)));
+						//float lengthRay = (float)(Math.Sqrt(Math.Pow(e.GetX() - pt1.X, 2) + Math.Pow(e.GetY() - pt1.Y,2)));
 						/*
 						if (lengthRay < 350)
 						{
@@ -606,21 +656,62 @@ namespace AngleXplore.Droid
 							float slope = (float)(
 						}*/
 
-							pt1a.X = e.GetX();
+							//pt1a.X = e.GetX();
 
-							pt1a.Y = e.GetY();
-
-
+							//pt1a.Y = e.GetY();
+						double angle = (double)(Math.Atan2(e.GetY() - pt1.Y, e.GetX() - pt1.X) * 180 / Math.PI);
+						float a = (float)Math.Sin(angle*Math.PI/180) * length;
+						float b = (float)Math.Sqrt((length * length) - (a * a));
+						if (angle > 0 && angle < 90)
+						{
+							pt1a.X = pt1.X + b;
+							pt1a.Y = pt1.Y + a;
+						}
+						else if (angle > 90 && angle < 180)
+						{
+							pt1a.X = pt1.X - b;
+							pt1a.Y = pt1.Y + a;
+						}
+						else if (angle < 0 && angle > -90)
+						{
+							pt1a.X = pt1.X + b;
+							pt1a.Y = pt1.Y + a;
+						}
+						else if (angle < -90 && angle > -180)
+						{
+							pt1a.X = pt1.X - b;
+							pt1a.Y = pt1.Y + a;
+						}
 						status = 7;
-						Log.Debug("AngleXPlore", "status:Ray1 moved. Ray1 length: " + lengthRay);
+						Log.Debug("AngleXPlore", "status:Ray1 moved.");
 						this.Invalidate();
 
 					}
 					else if (status == 8)
 					{
-						pt1b.X = e.GetX();
-
-						pt1b.Y = e.GetY();
+						double angle = (double)(Math.Atan2(e.GetY() - pt1.Y, e.GetX() - pt1.X) * 180 / Math.PI);
+						float a = (float)(Math.Sin(angle * Math.PI / 180) * length*multiplier);
+						float b = (float)Math.Sqrt((length * length*multiplier*multiplier) - (a * a));
+						if (angle > 0 && angle < 90)
+						{
+							pt1b.X = pt1.X + b;
+							pt1b.Y = pt1.Y + a;
+						}
+						else if (angle > 90 && angle < 180)
+						{
+							pt1b.X = pt1.X - b;
+							pt1b.Y = pt1.Y + a;
+						}
+						else if (angle < 0 && angle > -90)
+						{
+							pt1b.X = pt1.X + b;
+							pt1b.Y = pt1.Y + a;
+						}
+						else if (angle < -90 && angle > -180)
+						{
+							pt1b.X = pt1.X - b;
+							pt1b.Y = pt1.Y + a;
+						}
 						status = 9;
 						Log.Debug("AngleXPlore", "status:Ray2 moved");
 						this.Invalidate();
@@ -628,9 +719,29 @@ namespace AngleXplore.Droid
 					}
 					else if (status == 10)
 					{
-						pt2a.X = e.GetX();
-
-						pt2a.Y = e.GetY();
+						double angle = (double)(Math.Atan2(e.GetY() - pt2.Y, e.GetX() - pt2.X) * 180 / Math.PI);
+						float a = (float)(Math.Sin(angle * Math.PI / 180) * length * multiplier);
+						float b = (float)Math.Sqrt((length * length * multiplier * multiplier) - (a * a));
+						if (angle > 0 && angle < 90)
+						{
+							pt2a.X = pt2.X + b;
+							pt2a.Y = pt2.Y + a;
+						}
+						else if (angle > 90 && angle < 180)
+						{
+							pt2a.X = pt2.X - b;
+							pt2a.Y = pt2.Y + a;
+						}
+						else if (angle < 0 && angle > -90)
+						{
+							pt2a.X = pt2.X + b;
+							pt2a.Y = pt2.Y + a;
+						}
+						else if (angle < -90 && angle > -180)
+						{
+							pt2a.X = pt2.X - b;
+							pt2a.Y = pt2.Y + a;
+						}
 						status = 11;
 						Log.Debug("AngleXPlore", "status:Ray3 moved");
 						this.Invalidate();
@@ -638,9 +749,29 @@ namespace AngleXplore.Droid
 					}
 					else if (status == 12)
 					{
-						pt2b.X = e.GetX();
-
-						pt2b.Y = e.GetY();
+						double angle = (double)(Math.Atan2(e.GetY() - pt2.Y, e.GetX() - pt2.X) * 180 / Math.PI);
+						float a = (float)(Math.Sin(angle * Math.PI / 180) * length * multiplier);
+						float b = (float)Math.Sqrt((length * length * multiplier * multiplier) - (a * a));
+						if (angle > 0 && angle < 90)
+						{
+							pt2b.X = pt2.X + b;
+							pt2b.Y = pt2.Y + a;
+						}
+						else if (angle > 90 && angle < 180)
+						{
+							pt2b.X = pt2.X - b;
+							pt2b.Y = pt2.Y + a;
+						}
+						else if (angle < 0 && angle > -90)
+						{
+							pt2b.X = pt2.X + b;
+							pt2b.Y = pt2.Y + a;
+						}
+						else if (angle < -90 && angle > -180)
+						{
+							pt2b.X = pt2.X - b;
+							pt2b.Y = pt2.Y + a;
+						}
 						status = 13;
 						Log.Debug("AngleXPlore", "status:Ray4 moved");
 						this.Invalidate();
