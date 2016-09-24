@@ -25,6 +25,7 @@ namespace AngleXplore.Droid
 
 			Button btnClear = FindViewById<Button>(Resource.Id.btnClear);
 			btnClear.Click += delegate {
+				
 				canvas.clear();
 			};
 
