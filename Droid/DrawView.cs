@@ -19,12 +19,14 @@ namespace AngleXplore.Droid
 	{
 		public int status = 0; //0-none, 1-clear, 2-pt1 down, -1 clear
 		public int moveStatus = 0;
-		public int lockStatus = 0; // 1-both vertices coincide
+		public int lockStatus = 0; // 1-both vertices coincide, 2-vertex1&ray3, 3-vertex1&ray4
+		public int rayStatus = 0; //1-ray2&ray3, ;
 		float strokeWidth = 100, length = 100, multiplier = 1.2f;
 		PointF pt1, pt2, pt1a, pt1b, pt2a, pt2b;
 		public bool showAngles = false;
 		Context context;
 		long vibrateLength = 50;
+
 
 		public DrawView(Context _context) :
 			base(_context)
@@ -139,7 +141,8 @@ namespace AngleXplore.Droid
 			//this.height = _height;
 			status = 1;
 			lockStatus = 0;
-
+			moveStatus = 0;
+			rayStatus = 0;
 			this.Invalidate();
 
 		}
@@ -162,6 +165,19 @@ namespace AngleXplore.Droid
 			}
 			else if (status == 0)
 			{
+				Random rand = new Random(System.DateTime.UtcNow.Millisecond);
+				int ray1angle = rand.Next() % 150;
+				int ray2angle = 90;
+				int ray3angle = rand.Next() % 150;
+				int ray4angle = 90;
+
+				if (Math.Abs(ray1angle - ray2angle) < 30)
+					ray1angle += 60;
+				if (Math.Abs(ray3angle - ray4angle) < 30)
+					ray3angle += 60;
+
+
+
 				Paint paint = new Paint();
 				paint.Color = Color.Black;
 				paint.SetStyle(Paint.Style.FillAndStroke);
@@ -170,10 +186,11 @@ namespace AngleXplore.Droid
 				int height = canvas.ClipBounds.Height();
 				pt1 = new PointF(width / 4, height / 2);
 				pt2 = new PointF(width / 4 * 3, height / 2);
-				pt1a = new PointF(pt1.X + length, pt1.Y);
-				pt1b = new PointF(pt1.X, pt1.Y - length);
-				pt2a = new PointF(pt2.X + length, pt2.Y);
-				pt2b = new PointF(pt2.X, pt2.Y - length);
+				pt1a = new PointF(pt1.X + (float)Math.Cos(-ray1angle * Math.PI / 180) * length, pt1.Y + (float)Math.Sin(-ray1angle*Math.PI/180)*length);
+				pt1b = new PointF(pt1.X + (float)Math.Cos(-ray2angle * Math.PI / 180) * length, pt1.Y + (float)Math.Sin(-ray2angle * Math.PI / 180) * length);
+				pt2a = new PointF(pt2.X + (float)Math.Cos(-ray3angle * Math.PI / 180) * length, pt2.Y + (float)Math.Sin(-ray3angle * Math.PI / 180) * length);
+				pt2b = new PointF(pt2.X + (float)Math.Cos(-ray4angle * Math.PI / 180) * length, pt2.Y + (float)Math.Sin(-ray4angle * Math.PI / 180) * length);
+
 				canvas.DrawPoint(pt1.X, pt1.Y, paint);
 				canvas.DrawPoint(pt2.X, pt2.Y, paint);
 				paint.StrokeWidth = strokeWidth / 2;
@@ -232,6 +249,7 @@ namespace AngleXplore.Droid
 				//Log.Debug("AngleXPlore", "status:3");
 
 			}
+
 			else
 			{
 				Paint paint = new Paint();
@@ -440,9 +458,62 @@ namespace AngleXplore.Droid
 			{
 				Paint paint = new Paint();
 
-				paint.Color = Color.Red;
+
 				paint.SetStyle(Paint.Style.FillAndStroke);
+				paint.Color = Color.Red;
+
+				if (rayStatus == 1) //ray 2 & ray 3
+				{
+					paint.StrokeWidth = strokeWidth / 2;
+					canvas.DrawLine(pt1.X, pt1.Y, pt1b.X, pt1b.Y, paint);
+					canvas.DrawLine(pt2.X, pt2.Y, pt2a.X, pt2a.Y, paint);
+					Toast.MakeText(context, "Good job, you have created two adjacent angles", ToastLength.Long).Show();
+
+					this.clear();
+				}
+				else if (rayStatus == 2) //ray 1 & ray 3
+				{
+					paint.StrokeWidth = strokeWidth / 2;
+					canvas.DrawLine(pt1.X, pt1.Y, pt1a.X, pt1a.Y, paint);
+					canvas.DrawLine(pt2.X, pt2.Y, pt2a.X, pt2a.Y, paint);
+					Toast.MakeText(context, "Good job, you have created two adjacent angles", ToastLength.Long).Show();
+
+					this.clear();
+				}
+				else if (rayStatus == 3) //ray 1 & ray 4
+				{
+					paint.StrokeWidth = strokeWidth / 2;
+					canvas.DrawLine(pt1.X, pt1.Y, pt1a.X, pt1a.Y, paint);
+					canvas.DrawLine(pt2.X, pt2.Y, pt2b.X, pt2b.Y, paint);
+					Toast.MakeText(context, "Good job, you have created two adjacent angles", ToastLength.Long).Show();
+
+					this.clear();
+				}
+				else if (rayStatus == 4) //ray 2 & ray 4
+				{
+					paint.StrokeWidth = strokeWidth / 2;
+					canvas.DrawLine(pt1.X, pt1.Y, pt1b.X, pt1b.Y, paint);
+					canvas.DrawLine(pt2.X, pt2.Y, pt2b.X, pt2b.Y, paint);
+					Toast.MakeText(context, "Good job, you have created two adjacent angles", ToastLength.Long).Show();
+
+
+					this.clear();
+				}
+				else if(rayStatus == 0)
+				{
+					paint.Color = Color.DarkGray;
+					paint.StrokeWidth = strokeWidth / 2;
+					canvas.DrawLine(pt1.X, pt1.Y, pt1a.X, pt1a.Y, paint);
+
+					canvas.DrawLine(pt1.X, pt1.Y, pt1b.X, pt1b.Y, paint);
+					canvas.DrawLine(pt2.X, pt2.Y, pt2a.X, pt2a.Y, paint);
+
+					canvas.DrawLine(pt2.X, pt2.Y, pt2b.X, pt2b.Y, paint);
+				}
 				paint.StrokeWidth = strokeWidth;
+
+				paint.Color = Color.Red;
+
 				canvas.DrawPoint(pt1.X, pt1.Y, paint);
 				canvas.DrawPoint(pt2.X, pt2.Y, paint);
 
@@ -489,7 +560,7 @@ namespace AngleXplore.Droid
 				canvas.DrawPoint(pt1.X, pt1.Y, paint);
 				canvas.DrawPoint(pt2.X, pt2.Y, paint);
 			}
-
+			Console.WriteLine("status:" + status + " lockstatus:" + lockStatus + " movestatus:" + moveStatus);
 
 			//canvas.Draw	
 
@@ -617,6 +688,8 @@ namespace AngleXplore.Droid
 						if (Math.Abs(pt1.X - pt2.X) < 5 && Math.Abs(pt1.Y - pt2.Y) < 5)
 						{
 							lockStatus = 1;
+							Vibrator.FromContext(context).Vibrate(vibrateLength);
+
 						}
 						else
 						{
@@ -713,16 +786,8 @@ namespace AngleXplore.Droid
 						if (Math.Abs(pt1.X - pt2.X) < 5 && Math.Abs(pt1.Y - pt2.Y) < 5)
 						{
 							lockStatus = 1;
-						}
-						else if (lockStatus == 4) //vertex 1 is locked to ray3
-						{
+							Vibrator.FromContext(context).Vibrate(vibrateLength);
 
-							pt1.X -= xdiff;
-							pt1.Y -= ydiff;
-							pt1a.X -= xdiff;
-							pt1a.Y -= ydiff;
-							pt1b.X -= xdiff;
-							pt1b.Y -= ydiff;
 						}
 						else
 						{
@@ -738,60 +803,253 @@ namespace AngleXplore.Droid
 					}
 					else if (status == 6)
 					{
-						double prevAngle = (double)(Math.Atan2(pt1a.Y - pt1.Y, pt1a.X - pt1.X) * 180 / Math.PI);
-						double angle = (double)(Math.Atan2(e.GetY() - pt1.Y, e.GetX() - pt1.X) * 180 / Math.PI);
-						double otherRay = (double)(Math.Atan2(pt1b.Y - pt1.Y, pt1b.X - pt1.X) * 180 / Math.PI);
+						//double prevAngle = (double)(Math.Atan2(pt1a.Y - pt1.Y, pt1a.X - pt1.X) * 180 / Math.PI);
+						double newAngle = (double)(Math.Atan2(e.GetY() - pt1.Y, e.GetX() - pt1.X) * 180 / Math.PI);
+						double ray1Angle = (double)(Math.Atan2(pt1a.Y - pt1.Y, pt1a.X - pt1.X) * 180 / Math.PI);
 
-						double otherRayAngle = otherRay - (prevAngle - angle);
+						double ray2Angle = (double)(Math.Atan2(pt1b.Y - pt1.Y, pt1b.X - pt1.X) * 180 / Math.PI);
+						double ray3Angle = (double)(Math.Atan2(pt2a.Y - pt2.Y, pt2a.X - pt2.X) * 180 / Math.PI);
+
+						double ray4Angle = (double)(Math.Atan2(pt2b.Y - pt2.Y, pt2b.X - pt2.X) * 180 / Math.PI);
+
+						double angleDiff = newAngle - ray1Angle;
+						ray2Angle += angleDiff;
 
 						pt1a.X = e.GetX();
 
 						pt1a.Y = e.GetY();
 
+						pt1b.X = (float)(pt1.X + Math.Cos(ray2Angle*Math.PI/180)*length);
+						pt1b.Y = (float)(pt1.Y + Math.Sin(ray2Angle*Math.PI/180)*length);
 						//pt1b.X = (float)Math.Cos(otherRayAngle*Math.PI/180) * length;
 
 						//pt1b.Y = (float)Math.Sin(otherRayAngle*Math.PI/180) * length;
 
 						moveStatus = 1;
 
+						if (Math.Abs(ray2Angle - ray3Angle) < 1)
+						{
+							if (ray2Angle > ray1Angle && ray2Angle < ray4Angle)
+								rayStatus = 1;
+							else if (ray2Angle < ray1Angle && ray2Angle > ray4Angle)
+								rayStatus = 1;
+						}
+						else if (Math.Abs(ray1Angle - ray3Angle) < 1)
+						{
+							if (ray1Angle < ray2Angle && ray1Angle > ray4Angle)
+								rayStatus = 2;
+							else if (ray1Angle > ray2Angle && ray1Angle < ray4Angle)
+								rayStatus = 2;
+						}
+						else if (Math.Abs(ray1Angle - ray4Angle) < 1)
+						{
+							if (ray1Angle < ray3Angle && ray1Angle > ray2Angle)
+								rayStatus = 3;
+							else if (ray1Angle > ray3Angle && ray1Angle < ray2Angle)
+								rayStatus = 3;
+
+						}
+						else if (Math.Abs(ray2Angle - ray4Angle) < 1)
+						{
+							if (ray2Angle < ray1Angle && ray2Angle > ray3Angle)
+								rayStatus = 4;
+							else if (ray2Angle > ray1Angle && ray2Angle < ray3Angle)
+								rayStatus = 4;
+						}
+						else
+						{
+							rayStatus = 0;
+						}
 
 
-						System.Console.WriteLine("Ray1 is being dragged at angle:" + angle);
+
+						System.Console.WriteLine("Ray1 is being dragged at angle:" + newAngle);
 						this.Invalidate();
+
 
 					}
 					else if (status == 8)
 					{
+						double newAngle = (double)(Math.Atan2(e.GetY() - pt1.Y, e.GetX() - pt1.X) * 180 / Math.PI);
+						double ray1Angle = (double)(Math.Atan2(pt1a.Y - pt1.Y, pt1a.X - pt1.X) * 180 / Math.PI);
+
+						double ray2Angle = (double)(Math.Atan2(pt1b.Y - pt1.Y, pt1b.X - pt1.X) * 180 / Math.PI);
+
+						double angleDiff = newAngle - ray2Angle;
+						ray1Angle += angleDiff;
+
 						pt1b.X = e.GetX();
 
 						pt1b.Y = e.GetY();
 
 
 						moveStatus = 1;
+						pt1a.X = (float)(pt1.X + Math.Cos(ray1Angle * Math.PI / 180) * length);
+						pt1a.Y = (float)(pt1.Y + Math.Sin(ray1Angle * Math.PI / 180) * length);
+
+						double ray3Angle = (double)(Math.Atan2(pt2a.Y - pt2.Y, pt2a.X - pt2.X) * 180 / Math.PI);
+						double ray4Angle = (double)(Math.Atan2(pt2b.Y - pt2.Y, pt2b.X - pt2.X) * 180 / Math.PI);
+
+						if (Math.Abs(ray2Angle - ray3Angle) < 1)
+						{
+							if (ray2Angle > ray1Angle && ray2Angle < ray4Angle)
+								rayStatus = 1;
+							else if (ray2Angle < ray1Angle && ray2Angle > ray4Angle)
+								rayStatus = 1;
+						}
+						else if (Math.Abs(ray1Angle - ray3Angle) < 1)
+						{
+							if (ray1Angle < ray2Angle && ray1Angle > ray4Angle)
+								rayStatus = 2;
+							else if (ray1Angle > ray2Angle && ray1Angle < ray4Angle)
+								rayStatus = 2;
+						}
+						else if (Math.Abs(ray1Angle - ray4Angle) < 1)
+						{
+							if (ray1Angle < ray3Angle && ray1Angle > ray2Angle)
+								rayStatus = 3;
+							else if (ray1Angle > ray3Angle && ray1Angle < ray2Angle)
+								rayStatus = 3;
+
+						}
+						else if (Math.Abs(ray2Angle - ray4Angle) < 1)
+						{
+							if (ray2Angle < ray1Angle && ray2Angle > ray3Angle)
+								rayStatus = 4;
+							else if (ray2Angle > ray1Angle && ray2Angle < ray3Angle)
+								rayStatus = 4;
+						}
+						else
+						{
+							rayStatus = 0;
+						}
+
+
 						System.Console.WriteLine("Ray2 is being dragged");
 						this.Invalidate();
 
 					}
 					else if (status == 10)
 					{
+						double newAngle = (double)(Math.Atan2(e.GetY() - pt2.Y, e.GetX() - pt2.X) * 180 / Math.PI);
+
+						double ray1Angle = (double)(Math.Atan2(pt1a.Y - pt1.Y, pt1a.X - pt1.X) * 180 / Math.PI);
+
+						double ray2Angle = (double)(Math.Atan2(pt1b.Y - pt1.Y, pt1b.X - pt1.X) * 180 / Math.PI);
+
+						double ray3Angle = (double)(Math.Atan2(pt2a.Y - pt2.Y, pt2a.X - pt2.X) * 180 / Math.PI);
+
+						double ray4Angle = (double)(Math.Atan2(pt2b.Y - pt2.Y, pt2b.X - pt2.X) * 180 / Math.PI);
+
+						double angleDiff = newAngle - ray3Angle;
+						ray4Angle += angleDiff;
+
 						pt2a.X = e.GetX();
 
 						pt2a.Y = e.GetY();
 
 
 						moveStatus = 1;
+
+						pt2b.X = (float)(pt2.X + Math.Cos(ray4Angle * Math.PI / 180) * length);
+						pt2b.Y = (float)(pt2.Y + Math.Sin(ray4Angle * Math.PI / 180) * length);
+
+						if (Math.Abs(ray2Angle - ray3Angle) < 1)
+						{
+							if (ray2Angle > ray1Angle && ray2Angle < ray4Angle)
+								rayStatus = 1;
+							else if (ray2Angle < ray1Angle && ray2Angle > ray4Angle)
+								rayStatus = 1;
+						}
+						else if (Math.Abs(ray1Angle - ray3Angle) < 1)
+						{
+							if (ray1Angle < ray2Angle && ray1Angle > ray4Angle)
+								rayStatus = 2;
+							else if (ray1Angle > ray2Angle && ray1Angle < ray4Angle)
+								rayStatus = 2;
+						}
+						else if (Math.Abs(ray1Angle - ray4Angle) < 1)
+						{
+							if (ray1Angle < ray3Angle && ray1Angle > ray2Angle)
+								rayStatus = 3;
+							else if (ray1Angle > ray3Angle && ray1Angle < ray2Angle)
+								rayStatus = 3;
+
+						}
+						else if (Math.Abs(ray2Angle - ray4Angle) < 1)
+						{
+							if (ray2Angle < ray1Angle && ray2Angle > ray3Angle)
+								rayStatus = 4;
+							else if (ray2Angle > ray1Angle && ray2Angle < ray3Angle)
+								rayStatus = 4;
+						}
+						else
+						{
+							rayStatus = 0;
+						}
+
 						System.Console.WriteLine("Ray3 is being dragged");
 						this.Invalidate();
 
 					}
 					else if (status == 12)
 					{
+						double newAngle = (double)(Math.Atan2(e.GetY() - pt2.Y, e.GetX() - pt2.X) * 180 / Math.PI);
+						double ray1Angle = (double)(Math.Atan2(pt1a.Y - pt1.Y, pt1a.X - pt1.X) * 180 / Math.PI);
+
+						double ray2Angle = (double)(Math.Atan2(pt1b.Y - pt1.Y, pt1b.X - pt1.X) * 180 / Math.PI);
+
+						double ray3Angle = (double)(Math.Atan2(pt2a.Y - pt2.Y, pt2a.X - pt2.X) * 180 / Math.PI);
+
+						double ray4Angle = (double)(Math.Atan2(pt2b.Y - pt2.Y, pt2b.X - pt2.X) * 180 / Math.PI);
+
+						double angleDiff = newAngle - ray4Angle;
+						ray3Angle += angleDiff;
+
 						pt2b.X = e.GetX();
 
 						pt2b.Y = e.GetY();
 
 
 						moveStatus = 1;
+
+						pt2a.X = (float)(pt2.X + Math.Cos(ray3Angle * Math.PI / 180) * length);
+						pt2a.Y = (float)(pt2.Y + Math.Sin(ray3Angle * Math.PI / 180) * length);
+
+						if (Math.Abs(ray2Angle - ray3Angle) < 1)
+						{
+							if (ray2Angle > ray1Angle && ray2Angle < ray4Angle)
+								rayStatus = 1;
+							else if (ray2Angle < ray1Angle && ray2Angle > ray4Angle)
+								rayStatus = 1;
+						}
+						else if (Math.Abs(ray1Angle - ray3Angle) < 1)
+						{
+							if (ray1Angle < ray2Angle && ray1Angle > ray4Angle)
+								rayStatus = 2;
+							else if (ray1Angle > ray2Angle && ray1Angle < ray4Angle)
+								rayStatus = 2;
+						}
+						else if (Math.Abs(ray1Angle - ray4Angle) < 1)
+						{
+							if (ray1Angle < ray3Angle && ray1Angle > ray2Angle)
+								rayStatus = 3;
+							else if (ray1Angle > ray3Angle && ray1Angle < ray2Angle)
+								rayStatus = 3;
+
+						}
+						else if (Math.Abs(ray2Angle - ray4Angle) < 1)
+						{
+							if (ray2Angle < ray1Angle && ray2Angle > ray3Angle)
+								rayStatus = 4;
+							else if (ray2Angle > ray1Angle && ray2Angle < ray3Angle)
+								rayStatus = 4;
+						}
+						else
+						{
+							rayStatus = 0;
+						}
+
 						System.Console.WriteLine("Ray4 is being dragged");
 						this.Invalidate();
 
@@ -819,6 +1077,14 @@ namespace AngleXplore.Droid
 
 						if (Math.Abs(pt1.X - pt2.X) < 5 && Math.Abs(pt1.Y - pt2.Y) < 5)
 						{
+							float vXdiff = pt2.X - pt1.X;
+							float vYdiff = pt2.Y - pt1.Y;
+							pt1.X = pt2.X;
+							pt1.Y = pt2.Y;
+							pt1a.X -= vXdiff;
+							pt1a.Y -= vYdiff;
+							pt1b.X -= vXdiff;
+							pt1b.Y -= vYdiff;
 							lockStatus = 3;
 						}
 						else {
@@ -863,6 +1129,14 @@ namespace AngleXplore.Droid
 
 						if (Math.Abs(pt1.X - pt2.X) < 5 && Math.Abs(pt1.Y - pt2.Y) < 5)
 						{
+							float vXdiff = pt2.X - pt1.X;
+							float vYdiff = pt2.Y - pt1.Y;
+							pt2.X = pt1.X;
+							pt2.Y = pt1.Y;
+							pt2a.X -= vXdiff;
+							pt2a.Y -= vYdiff;
+							pt2b.X -= vXdiff;
+							pt2b.Y -= vYdiff;
 							lockStatus = 3;
 						}
 
@@ -924,8 +1198,8 @@ namespace AngleXplore.Droid
 					else if (status == 8)
 					{
 						double angle = (double)(Math.Atan2(e.GetY() - pt1.Y, e.GetX() - pt1.X) * 180 / Math.PI);
-						float a = (float)(Math.Sin(angle * Math.PI / 180) * length*multiplier);
-						float b = (float)Math.Sqrt((length * length*multiplier*multiplier) - (a * a));
+						float a = (float)(Math.Sin(angle * Math.PI / 180) * length);
+						float b = (float)Math.Sqrt((length * length) - (a * a));
 						if (angle > 0 && angle < 90)
 						{
 							pt1b.X = pt1.X + b;
@@ -954,8 +1228,8 @@ namespace AngleXplore.Droid
 					else if (status == 10)
 					{
 						double angle = (double)(Math.Atan2(e.GetY() - pt2.Y, e.GetX() - pt2.X) * 180 / Math.PI);
-						float a = (float)(Math.Sin(angle * Math.PI / 180) * length * multiplier);
-						float b = (float)Math.Sqrt((length * length * multiplier * multiplier) - (a * a));
+						float a = (float)(Math.Sin(angle * Math.PI / 180) * length);
+						float b = (float)Math.Sqrt((length * length) - (a * a));
 						if (angle > 0 && angle < 90)
 						{
 							pt2a.X = pt2.X + b;
@@ -983,9 +1257,10 @@ namespace AngleXplore.Droid
 					}
 					else if (status == 12)
 					{
+						
 						double angle = (double)(Math.Atan2(e.GetY() - pt2.Y, e.GetX() - pt2.X) * 180 / Math.PI);
-						float a = (float)(Math.Sin(angle * Math.PI / 180) * length * multiplier*multiplier);
-						float b = (float)Math.Sqrt((length * length * multiplier * multiplier*multiplier*multiplier) - (a * a));
+						float a = (float)(Math.Sin(angle * Math.PI / 180) * length);
+						float b = (float)Math.Sqrt((length * length) - (a * a));
 						if (angle > 0 && angle < 90)
 						{
 							pt2b.X = pt2.X + b;
