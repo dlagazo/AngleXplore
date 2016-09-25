@@ -236,7 +236,6 @@ namespace AngleXplore.Droid
 				//Log.Debug("AngleXPlore", "status:3");
 
 			}
-
 			else
 			{
 				Paint paint = new Paint();
@@ -530,7 +529,7 @@ namespace AngleXplore.Droid
 
 			}
 			//vertex 1 coincided with ray3
-			else if (lockStatus == 4)
+			else if (lockStatus == 4 || lockStatus == 5)
 			{
 
 				Paint paint = new Paint();
@@ -538,27 +537,17 @@ namespace AngleXplore.Droid
 				paint.SetStyle(Paint.Style.FillAndStroke);
 				paint.StrokeWidth = strokeWidth;
 				canvas.DrawPoint(pt1.X, pt1.Y, paint);
-				paint.StrokeWidth = strokeWidth / 2;
-				canvas.DrawLine(pt2.X, pt2.Y, pt2a.X, pt2a.Y, paint);
-
-				paint.Color = Color.Pink;
-				canvas.DrawCircle(pt2a.X, pt2a.Y, (float)(strokeWidth / 2.5), paint);
 
 
 			}
-			else if (lockStatus == 5) //vertex 1 coincided with ra4
+			else if (lockStatus == 6 || lockStatus == 7) //vertex 2 coincided with ray
 			{
 
 				Paint paint = new Paint();
 				paint.Color = Color.Red;
 				paint.SetStyle(Paint.Style.FillAndStroke);
 				paint.StrokeWidth = strokeWidth;
-				canvas.DrawPoint(pt1.X, pt1.Y, paint);
-				paint.StrokeWidth = strokeWidth / 2;
-				canvas.DrawLine(pt2.X, pt2.Y, pt2b.X, pt2b.Y, paint);
-
-				paint.Color = Color.Cyan;
-				canvas.DrawCircle(pt2b.X, pt2b.Y, (float)(strokeWidth / 2.5), paint);
+				canvas.DrawPoint(pt2.X, pt2.Y, paint);
 
 
 			}
@@ -835,65 +824,67 @@ namespace AngleXplore.Droid
 							float newVertex1to2angle = (float)(Math.Atan2(e.GetY() - pt2.Y, e.GetX() - pt2.X) * 180 / Math.PI);
 							float ray3length = (float)Math.Sqrt(Math.Pow(pt2.X - pt2a.X, 2) + Math.Pow(pt2.Y - pt2a.Y, 2));
 							float newVertex1to2length = (float)Math.Sqrt(Math.Pow(pt2.X - e.GetX(), 2) + Math.Pow(pt2.Y - e.GetY(), 2));
+							float xDiff = pt1.X - e.GetX();
+							float yDiff = pt1.Y - e.GetY();
 							if (Math.Abs(ray3angle - newVertex1to2angle) < 5 && newVertex1to2length < ray3length)
 							{
 								pt1.X = e.GetX();
 								pt1.Y = e.GetY();
+								pt1a.X -= xDiff;
+								pt1a.Y -= yDiff;
+								pt1b.X -= xDiff;
+								pt1b.Y -= yDiff;
 							}
 							else if (Math.Abs(ray3angle - newVertex1to2angle) < 5 && newVertex1to2length > ray3length)
 							{
 								pt1.X = e.GetX();
 								pt1.Y = e.GetY();
-								lockStatus = 0;
-							}
-
-						}
-						else if (lockStatus == 4)
-						{
-							System.Console.WriteLine("Point1 is being dragged but locked to Ray3");
-
-							float ray3angle = (float)(Math.Atan2(pt2a.Y - pt2.Y, pt2a.X - pt2.X) * 180 / Math.PI);
-							float newVertex1to2angle = (float)(Math.Atan2(e.GetY() - pt2.Y, e.GetX() - pt2.X) * 180 / Math.PI);
-							float ray3length = (float)Math.Sqrt(Math.Pow(pt2.X - pt2a.X, 2) + Math.Pow(pt2.Y - pt2a.Y, 2));
-							float newVertex1to2length = (float)Math.Sqrt(Math.Pow(pt2.X - e.GetX(), 2) + Math.Pow(pt2.Y - e.GetY(), 2));
-							if (Math.Abs(ray3angle - newVertex1to2angle) < 5 && newVertex1to2length < ray3length)
-							{
-								pt1.X = e.GetX();
-								pt1.Y = e.GetY();
-							}
-							else if (Math.Abs(ray3angle - newVertex1to2angle) < 5 && newVertex1to2length > ray3length)
-							{
-								pt1.X = e.GetX();
-								pt1.Y = e.GetY();
+								pt1a.X -= xDiff;
+								pt1a.Y -= yDiff;
+								pt1b.X -= xDiff;
+								pt1b.Y -= yDiff;
 								lockStatus = 0;
 							}
 
 						}
 						else if (lockStatus == 5)
 						{
-							System.Console.WriteLine("Point1 is being dragged but locked to Ray4");
+							
 
 							float ray4angle = (float)(Math.Atan2(pt2b.Y - pt2.Y, pt2b.X - pt2.X) * 180 / Math.PI);
 							float newVertex1to2angle = (float)(Math.Atan2(e.GetY() - pt2.Y, e.GetX() - pt2.X) * 180 / Math.PI);
 							float ray4length = (float)Math.Sqrt(Math.Pow(pt2.X - pt2b.X, 2) + Math.Pow(pt2.Y - pt2b.Y, 2));
 							float newVertex1to2length = (float)Math.Sqrt(Math.Pow(pt2.X - e.GetX(), 2) + Math.Pow(pt2.Y - e.GetY(), 2));
+							float xDiff = pt1.X - e.GetX();
+							float yDiff = pt1.Y - e.GetY();
 							if (Math.Abs(ray4angle - newVertex1to2angle) < 5 && newVertex1to2length < ray4length)
 							{
+								
+
 								pt1.X = e.GetX();
 								pt1.Y = e.GetY();
+								pt1a.X -= xDiff;
+								pt1a.Y -= yDiff;
+								pt1b.X -= xDiff;
+								pt1b.Y -= yDiff;
 							}
 							else if (Math.Abs(ray4angle - newVertex1to2angle) < 5 && newVertex1to2length > ray4length)
 							{
 								pt1.X = e.GetX();
 								pt1.Y = e.GetY();
+								pt1a.X -= xDiff;
+								pt1a.Y -= yDiff;
+								pt1b.X -= xDiff;
+								pt1b.Y -= yDiff;
 								lockStatus = 0;
 							}
 
 						}
-
+						System.Console.WriteLine("Point1 is being dragged but locked a Ray");
+						this.Invalidate();
 
 					}
-					else if (status == 4 && lockStatus != 3)
+					else if (status == 4 && lockStatus != 3 && lockStatus != 5 && lockStatus != 4)
 					{
 						float xdiff = pt2.X - e.GetX();
 						float ydiff = pt2.Y - e.GetY();
@@ -921,9 +912,38 @@ namespace AngleXplore.Droid
 
 
 
+						this.Invalidate();
 
 						System.Console.WriteLine("Point2 is being dragged");
+
+					}
+					else if (status == 4 && (lockStatus == 5 || lockStatus == 4))
+					{
+						//point 2 being dragged and point 1 is locked to ray 4
+						float xdiff = pt2.X - e.GetX();
+						float ydiff = pt2.Y - e.GetY();
+						pt2a.X -= xdiff;
+						pt2a.Y -= ydiff;
+						pt2b.X -= xdiff;
+						pt2b.Y -= ydiff;
+
+
+						pt2.X = e.GetX();
+
+						pt2.Y = e.GetY();
+						moveStatus = 1;
+
+						pt1.X -= xdiff;
+						pt1.Y -= ydiff;
+						pt1a.X -= xdiff;
+						pt1a.Y -= ydiff;
+						pt1b.X -= xdiff;
+						pt1b.Y -= ydiff;
 						this.Invalidate();
+
+						System.Console.WriteLine("Point2 is being dragged along with Point1");
+
+
 
 					}
 					else if (status == 6)
@@ -954,9 +974,9 @@ namespace AngleXplore.Droid
 						upStatus = false;
 						checkRays();
 
+						this.Invalidate();
 
 						System.Console.WriteLine("Ray1 is being dragged at angle:" + newAngle);
-						this.Invalidate();
 
 
 					}
@@ -981,9 +1001,9 @@ namespace AngleXplore.Droid
 
 
 						checkRays();
+						this.Invalidate();
 
 						System.Console.WriteLine("Ray2 is being dragged");
-						this.Invalidate();
 
 					}
 					else if (status == 10)
@@ -1013,8 +1033,54 @@ namespace AngleXplore.Droid
 
 						checkRays();
 
-						System.Console.WriteLine("Ray3 is being dragged");
+						if (lockStatus == 5)
+						{
+							//Ray 3 is being dragged while Vertex 1 is locked to Ray 4
+							double ray1AngleWrtPt2 = (double)(Math.Atan2(pt1a.Y - pt2b.Y, pt1a.X - pt2b.X) * 180 / Math.PI);
+							double ray1LenWrtPt1 = Math.Sqrt(Math.Pow(pt1a.X - pt1.X, 2) + Math.Pow(pt1a.Y - pt1.Y, 2));
+							double ray2AngleWrtPt2 = (double)(Math.Atan2(pt1b.Y - pt2b.Y, pt1b.X - pt2b.X) * 180 / Math.PI);
+							double ray2LenWrtPt1 = Math.Sqrt(Math.Pow(pt1b.X - pt1.X, 2) + Math.Pow(pt1b.Y - pt1.Y, 2));
+
+							double pt1ToPt2Length = Math.Sqrt(Math.Pow(pt1.X - pt2.X, 2) + Math.Pow(pt1.Y - pt2.Y, 2));
+
+							pt1.X = (float)(pt2.X + Math.Cos(ray4Angle * Math.PI / 180) * pt1ToPt2Length);
+							pt1.Y = (float)(pt2.Y + Math.Sin(ray4Angle * Math.PI / 180) * pt1ToPt2Length);
+
+							ray1Angle += angleDiff;
+							ray2Angle += angleDiff;
+
+							pt1a.X = (float)(pt1.X + Math.Cos(ray1Angle * Math.PI / 180) * ray1LenWrtPt1);
+							pt1a.Y = (float)(pt1.Y + Math.Sin(ray1Angle * Math.PI / 180) * ray1LenWrtPt1);
+							pt1b.X = (float)(pt1.X + Math.Cos(ray2Angle * Math.PI / 180) * ray2LenWrtPt1);
+							pt1b.Y = (float)(pt1.Y + Math.Sin(ray2Angle * Math.PI / 180) * ray2LenWrtPt1);
+
+						}
+						else if (lockStatus == 4)
+						{
+							//Ray 3 is being dragged while Vertex 1 is locked to Ray 4
+							double ray1AngleWrtPt2 = (double)(Math.Atan2(pt1a.Y - pt2b.Y, pt1a.X - pt2b.X) * 180 / Math.PI);
+							double ray1LenWrtPt1 = Math.Sqrt(Math.Pow(pt1a.X - pt1.X, 2) + Math.Pow(pt1a.Y - pt1.Y, 2));
+							double ray2AngleWrtPt2 = (double)(Math.Atan2(pt1b.Y - pt2b.Y, pt1b.X - pt2b.X) * 180 / Math.PI);
+							double ray2LenWrtPt1 = Math.Sqrt(Math.Pow(pt1b.X - pt1.X, 2) + Math.Pow(pt1b.Y - pt1.Y, 2));
+
+							double pt1ToPt2Length = Math.Sqrt(Math.Pow(pt1.X - pt2.X, 2) + Math.Pow(pt1.Y - pt2.Y, 2));
+
+							pt1.X = (float)(pt2.X + Math.Cos(newAngle * Math.PI / 180) * pt1ToPt2Length);
+							pt1.Y = (float)(pt2.Y + Math.Sin(newAngle * Math.PI / 180) * pt1ToPt2Length);
+
+							ray1Angle += angleDiff;
+							ray2Angle += angleDiff;
+
+							pt1a.X = (float)(pt1.X + Math.Cos(ray1Angle * Math.PI / 180) * ray1LenWrtPt1);
+							pt1a.Y = (float)(pt1.Y + Math.Sin(ray1Angle * Math.PI / 180) * ray1LenWrtPt1);
+							pt1b.X = (float)(pt1.X + Math.Cos(ray2Angle * Math.PI / 180) * ray2LenWrtPt1);
+							pt1b.Y = (float)(pt1.Y + Math.Sin(ray2Angle * Math.PI / 180) * ray2LenWrtPt1);
+
+						}
+
 						this.Invalidate();
+
+						System.Console.WriteLine("Ray3 is being dragged");
 
 					}
 					else if (status == 12)
@@ -1038,14 +1104,61 @@ namespace AngleXplore.Droid
 
 						moveStatus = 1;
 
+
+
 						pt2a.X = (float)(pt2.X + Math.Cos(ray3Angle * Math.PI / 180) * length);
 						pt2a.Y = (float)(pt2.Y + Math.Sin(ray3Angle * Math.PI / 180) * length);
 
-						checkRays();
 
+
+						checkRays();
+						if (lockStatus == 5)
+						{
+							//Ray 4 is being dragged while Vertex 1 is locked to it
+							double ray1AngleWrtPt2 = (double)(Math.Atan2(pt1a.Y - pt2b.Y, pt1a.X - pt2b.X) * 180 / Math.PI);
+							double ray1LenWrtPt1 = Math.Sqrt(Math.Pow(pt1a.X - pt1.X, 2) + Math.Pow(pt1a.Y - pt1.Y, 2));
+							double ray2AngleWrtPt2 = (double)(Math.Atan2(pt1b.Y - pt2b.Y, pt1b.X - pt2b.X) * 180 / Math.PI);
+							double ray2LenWrtPt1 = Math.Sqrt(Math.Pow(pt1b.X - pt1.X, 2) + Math.Pow(pt1b.Y - pt1.Y, 2));
+
+							double pt1ToPt2Length = Math.Sqrt(Math.Pow(pt1.X - pt2.X, 2) + Math.Pow(pt1.Y - pt2.Y,2));
+
+							pt1.X = (float)(pt2.X + Math.Cos(newAngle * Math.PI / 180) * pt1ToPt2Length);
+							pt1.Y = (float)(pt2.Y + Math.Sin(newAngle * Math.PI / 180) * pt1ToPt2Length);
+
+							ray1Angle += angleDiff;
+							ray2Angle += angleDiff;
+
+							pt1a.X = (float)(pt1.X + Math.Cos(ray1Angle * Math.PI / 180) * ray1LenWrtPt1);
+							pt1a.Y = (float)(pt1.Y + Math.Sin(ray1Angle * Math.PI / 180) * ray1LenWrtPt1);
+							pt1b.X = (float)(pt1.X + Math.Cos(ray2Angle * Math.PI / 180) * ray2LenWrtPt1);
+							pt1b.Y = (float)(pt1.Y + Math.Sin(ray2Angle * Math.PI / 180) * ray2LenWrtPt1);
+
+						}
+						else if (lockStatus == 4)
+						{
+							//Ray 3 is being dragged while Vertex 1 is locked to Ray 4
+							double ray1AngleWrtPt2 = (double)(Math.Atan2(pt1a.Y - pt2b.Y, pt1a.X - pt2b.X) * 180 / Math.PI);
+							double ray1LenWrtPt1 = Math.Sqrt(Math.Pow(pt1a.X - pt1.X, 2) + Math.Pow(pt1a.Y - pt1.Y, 2));
+							double ray2AngleWrtPt2 = (double)(Math.Atan2(pt1b.Y - pt2b.Y, pt1b.X - pt2b.X) * 180 / Math.PI);
+							double ray2LenWrtPt1 = Math.Sqrt(Math.Pow(pt1b.X - pt1.X, 2) + Math.Pow(pt1b.Y - pt1.Y, 2));
+
+							double pt1ToPt2Length = Math.Sqrt(Math.Pow(pt1.X - pt2.X, 2) + Math.Pow(pt1.Y - pt2.Y, 2));
+
+							pt1.X = (float)(pt2.X + Math.Cos(ray3Angle * Math.PI / 180) * pt1ToPt2Length);
+							pt1.Y = (float)(pt2.Y + Math.Sin(ray3Angle * Math.PI / 180) * pt1ToPt2Length);
+
+							ray1Angle += angleDiff;
+							ray2Angle += angleDiff;
+
+							pt1a.X = (float)(pt1.X + Math.Cos(ray1Angle * Math.PI / 180) * ray1LenWrtPt1);
+							pt1a.Y = (float)(pt1.Y + Math.Sin(ray1Angle * Math.PI / 180) * ray1LenWrtPt1);
+							pt1b.X = (float)(pt1.X + Math.Cos(ray2Angle * Math.PI / 180) * ray2LenWrtPt1);
+							pt1b.Y = (float)(pt1.Y + Math.Sin(ray2Angle * Math.PI / 180) * ray2LenWrtPt1);
+
+						}
+							
 						System.Console.WriteLine("Ray4 is being dragged");
 						this.Invalidate();
-
 					}
 
 					break;
@@ -1102,8 +1215,8 @@ namespace AngleXplore.Droid
 							}
 
 						}
-
 						this.Invalidate();
+
 
 					}
 					else if (status == 4 && lockStatus != 3)
@@ -1134,12 +1247,34 @@ namespace AngleXplore.Droid
 							lockStatus = 3;
 
 						}
+						else
+						{
+							float ray1angle = (float)(Math.Atan2(pt1a.Y - pt1.Y, pt1a.X - pt1.X) * 180 / Math.PI);
+							float ray2angle = (float)(Math.Atan2(pt1b.Y - pt1.Y, pt1b.X - pt1.X) * 180 / Math.PI);
+
+							float vertex2to1angle = (float)(Math.Atan2(pt2.Y - pt1.Y, pt2.X - pt1.X) * 180 / Math.PI);
+							float ray1length = (float)Math.Sqrt(Math.Pow(pt2.X - pt2a.X, 2) + Math.Pow(pt2.Y - pt2a.Y, 2));
+							float ray2length = (float)Math.Sqrt(Math.Pow(pt2.X - pt2b.X, 2) + Math.Pow(pt2.Y - pt2b.Y, 2));
+
+							float vertex2to1length = (float)Math.Sqrt(Math.Pow(pt2.X - pt1.X, 2) + Math.Pow(pt2.Y - pt1.Y, 2));
+							if (Math.Abs(ray1angle - vertex2to1angle) < 5 && vertex2to1length <= ray1length)
+							{
+								lockStatus = 6;
+								Console.WriteLine("Vertex 2 dropped and locked with ray1");
+							}
+							else if (Math.Abs(ray2angle - vertex2to1angle) < 5 && vertex2to1length <= ray2length)
+							{
+								lockStatus = 7;
+								Console.WriteLine("Vertex 2 dropped and locked with ray2");
+							}
+
+						}
 
 						Log.Debug("AngleXPlore", "status:Point2 moved");
-
-
-
 						this.Invalidate();
+
+
+
 
 					}
 					else if (status == 6)
@@ -1289,7 +1424,6 @@ namespace AngleXplore.Droid
 					Log.Debug("AngleXPlore", "x:" + e.GetX() + " y:" + e.GetY());
 					Log.Debug("AngleXPlore", "pt1x:" + pt1.X + " pt1y:" + pt1.Y);
 					Log.Debug("AngleXPlore", "pt2x:" + pt2.X + " pt2y:" + pt2.Y);
-
 					break;
 
 
