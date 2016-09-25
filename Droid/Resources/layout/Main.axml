@@ -19,7 +19,8 @@
         android:orientation="horizontal"
         android:background="#ffffffff"
         android:minWidth="25px"
-        android:minHeight="25px">
+        android:minHeight="25px"
+        android:gravity="center">
         <Button
             android:text="New Angles"
             android:layout_width="wrap_content"
