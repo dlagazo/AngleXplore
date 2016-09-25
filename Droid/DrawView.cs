@@ -158,15 +158,10 @@ namespace AngleXplore.Droid
 				Log.Debug("AngleXPlore", "status:1");
 
 				Random rand = new Random(System.DateTime.UtcNow.Millisecond);
-				int ray1angle = rand.Next() % 150;
-				int ray2angle = 90;
-				int ray3angle = rand.Next() % 150;
-				int ray4angle = 90;
-
-				if (Math.Abs(ray1angle - ray2angle) < 30)
-					ray1angle += 60;
-				if (Math.Abs(ray3angle - ray4angle) < 30)
-					ray3angle += 60;
+				int ray1angle = -135;
+				int ray2angle = -(rand.Next()%120);
+				int ray3angle = rand.Next()%120;
+				int ray4angle = 135;
 
 
 
@@ -178,8 +173,8 @@ namespace AngleXplore.Droid
 				int height = canvas.ClipBounds.Height();
 				pt1 = new PointF(width / 4, height / 2);
 				pt2 = new PointF(width / 4 * 3, height / 2);
-				pt1a = new PointF(pt1.X + (float)Math.Cos(-ray1angle * Math.PI / 180) * length, pt1.Y + (float)Math.Sin(-ray1angle * Math.PI / 180) * length);
-				pt1b = new PointF(pt1.X + (float)Math.Cos(-ray2angle * Math.PI / 180) * length, pt1.Y + (float)Math.Sin(-ray2angle * Math.PI / 180) * length);
+				pt1a = new PointF(pt1.X + (float)Math.Cos(ray1angle * Math.PI / 180) * length, pt1.Y + (float)Math.Sin(ray1angle * Math.PI / 180) * length);
+				pt1b = new PointF(pt1.X + (float)Math.Cos(ray2angle * Math.PI / 180) * length, pt1.Y + (float)Math.Sin(ray2angle * Math.PI / 180) * length);
 				pt2a = new PointF(pt2.X + (float)Math.Cos(ray3angle * Math.PI / 180) * length, pt2.Y + (float)Math.Sin(ray3angle * Math.PI / 180) * length);
 				pt2b = new PointF(pt2.X + (float)Math.Cos(ray4angle * Math.PI / 180) * length, pt2.Y + (float)Math.Sin(ray4angle * Math.PI / 180) * length);
 
@@ -578,7 +573,6 @@ namespace AngleXplore.Droid
 			}
 			Console.WriteLine("status:" + status + " lockstatus:" + lockStatus + " movestatus:" +
 							  moveStatus + " upstatus:" + upStatus + " raystatus:" + rayStatus);
-			upStatus = false;
 			//canvas.Draw	
 
 			//_shape.Draw(canvas);
@@ -597,7 +591,7 @@ namespace AngleXplore.Droid
 			rayStatus = 0;
 			seconds = 5;
 			upStatus = false;
-			isGameOver = false;
+
 			Console.WriteLine("Cleared");
 
 			Invalidate();
@@ -655,84 +649,49 @@ namespace AngleXplore.Droid
 			double ray3Angle = (double)(Math.Atan2(pt2a.Y - pt2.Y, pt2a.X - pt2.X) * 180 / Math.PI);
 
 			double ray4Angle = (double)(Math.Atan2(pt2b.Y - pt2.Y, pt2b.X - pt2.X) * 180 / Math.PI);
+			Console.WriteLine("CheckRays()" + "ray1Angle:" + ray1Angle);
+			Console.WriteLine("CheckRays()" + "ray2Angle:" + ray2Angle);
+			Console.WriteLine("CheckRays()" + "ray3Angle:" + ray3Angle);
+			Console.WriteLine("CheckRays()" + "ray4Angle:" + ray4Angle);
+
 
 			if (Math.Abs(ray2Angle - ray3Angle) < 1)
 			{
-				if (ray2Angle > ray1Angle && ray2Angle < ray4Angle)
-				{
-					if (rayStatus != 1 && !upStatus)
+				//QA PASSED
+				Console.WriteLine("Ray2 and Ray3 touched");
+				Console.WriteLine("raystatus:" + rayStatus + " upStatus:" + upStatus);
 
-						rayStatus = 1;
-					else if (rayStatus == 1 && upStatus)
-						rayStatus = 5;
-				}
 
-				else if (ray2Angle < ray1Angle && ray2Angle > ray4Angle)
-				{
+					Console.WriteLine("Game over");
+
 					if (rayStatus != 1 && !upStatus)
 						rayStatus = 1;
 					else if (rayStatus == 1 && upStatus)
 						rayStatus = 5;
-				}
-			}
-			else if (Math.Abs(ray1Angle - ray3Angle) < 1)
-			{
-				if (ray1Angle < ray2Angle && ray1Angle > ray4Angle)
-				{
-					if (rayStatus != 2 && !upStatus)
-						rayStatus = 2;
-					else if (rayStatus == 2 && upStatus)
-						rayStatus = 6;
-				}
-				else if (ray1Angle > ray2Angle && ray1Angle < ray4Angle)
-				{
-					if (rayStatus != 2 && !upStatus)
-						rayStatus = 2;
-					else if (rayStatus == 2 && upStatus)
-						rayStatus = 6;
-				}
+				
+
 			}
 			else if (Math.Abs(ray1Angle - ray4Angle) < 1)
 			{
-				if (ray1Angle < ray3Angle && ray1Angle > ray2Angle)
-				{
-					if (rayStatus != 3 && !upStatus)
-						rayStatus = 3;
-					else if (rayStatus == 3 && upStatus)
-						rayStatus = 7;
-				}
-				else if (ray1Angle > ray3Angle && ray1Angle < ray2Angle)
-				{
-					if (rayStatus != 3 && !upStatus)
-						rayStatus = 3;
-					else if (rayStatus == 3 && upStatus)
-						rayStatus = 7;
-				}
+				Console.WriteLine("Ray1 and Ray4 touched");
+				Console.WriteLine("raystatus:" + rayStatus + " upStatus:" + upStatus);
 
-			}
-			else if (Math.Abs(ray2Angle - ray4Angle) < 1)
-			{
-				if (ray2Angle < ray1Angle && ray2Angle > ray3Angle)
-				{
-					if (rayStatus != 4 && !upStatus)
-						rayStatus = 4;
-					else if (rayStatus == 4 && upStatus)
-						rayStatus = 8;
-				}
-				else if (ray2Angle > ray1Angle && ray2Angle < ray3Angle)
-				{
-					if (rayStatus != 4 && !upStatus)
-						rayStatus = 4;
-					else if (rayStatus == 4 && upStatus)
-						rayStatus = 8;
-				}
+
+					
+					Console.WriteLine("Game over");
+
+					if (rayStatus != 3 && !upStatus)
+						rayStatus = 3;
+					else if (rayStatus == 3 && upStatus)
+						rayStatus = 7;
+				
 			}
 			else
 			{
 				rayStatus = 0;
 			}
 
-
+			this.Invalidate();
 
 		}
 
@@ -746,6 +705,7 @@ namespace AngleXplore.Droid
 
 				case MotionEventActions.Down:
 					System.Console.WriteLine("Down");
+					upStatus = false;
 					float insideGreen = (float)(Math.Atan2(e.GetY() - pt1.Y, e.GetX() - pt1.X) * 180 / Math.PI);
 					float insideBlue = (float)(Math.Atan2(e.GetY() - pt2.Y, e.GetX() - pt2.X) * 180 / Math.PI);
 					float angleYellow = (float)(Math.Atan2(pt1a.Y - pt1.Y, pt1a.X - pt1.X) * 180 / Math.PI);
@@ -835,6 +795,7 @@ namespace AngleXplore.Droid
 
 				case MotionEventActions.Move:
 					System.Console.WriteLine("Move");
+					upStatus = false;
 					if (status == 2 && lockStatus != 3 && lockStatus != 4 && lockStatus != 5)
 					{
 						float xdiff = pt1.X - e.GetX();
@@ -990,7 +951,7 @@ namespace AngleXplore.Droid
 						//pt1b.Y = (float)Math.Sin(otherRayAngle*Math.PI/180) * length;
 
 						moveStatus = 1;
-
+						upStatus = false;
 						checkRays();
 
 
@@ -1018,8 +979,6 @@ namespace AngleXplore.Droid
 						pt1a.X = (float)(pt1.X + Math.Cos(ray1Angle * Math.PI / 180) * length);
 						pt1a.Y = (float)(pt1.Y + Math.Sin(ray1Angle * Math.PI / 180) * length);
 
-						double ray3Angle = (double)(Math.Atan2(pt2a.Y - pt2.Y, pt2a.X - pt2.X) * 180 / Math.PI);
-						double ray4Angle = (double)(Math.Atan2(pt2b.Y - pt2.Y, pt2b.X - pt2.X) * 180 / Math.PI);
 
 						checkRays();
 
@@ -1094,6 +1053,7 @@ namespace AngleXplore.Droid
 
 				case MotionEventActions.Up:
 					System.Console.WriteLine("Up");
+					upStatus = true;
 					if (status == 2 && lockStatus != 3 && lockStatus != 4 && lockStatus != 5)
 					{
 						float xdiff = pt1.X - e.GetX();
@@ -1226,7 +1186,6 @@ namespace AngleXplore.Droid
 							pt1a.Y = pt1.Y + a;
 						}
 						status = 7;
-						upStatus = true;
 						checkRays();
 						Log.Debug("AngleXPlore", "status:Ray1 moved.");
 						this.Invalidate();
@@ -1258,7 +1217,6 @@ namespace AngleXplore.Droid
 							pt1b.Y = pt1.Y + a;
 						}
 						status = 9;
-						upStatus = true;
 						checkRays();
 						Log.Debug("AngleXPlore", "status:Ray2 moved");
 						this.Invalidate();
@@ -1290,7 +1248,6 @@ namespace AngleXplore.Droid
 							pt2a.Y = pt2.Y + a;
 						}
 						status = 11;
-						upStatus = true;
 						checkRays();
 						Log.Debug("AngleXPlore", "status:Ray3 moved");
 						this.Invalidate();
@@ -1323,7 +1280,6 @@ namespace AngleXplore.Droid
 							pt2b.Y = pt2.Y + a;
 						}
 						status = 13;
-						upStatus = true;
 						checkRays();
 						Log.Debug("AngleXPlore", "status:Ray4 moved");
 						this.Invalidate();
