@@ -13,7 +13,7 @@ using Android.Widget;
 
 namespace AngleXplore.Droid
 {
-	[Activity(Label = "MenuActivity", MainLauncher = true, Icon = "@mipmap/icon", ScreenOrientation = Android.Content.PM.ScreenOrientation.Landscape,
+	[Activity(Label = "AngleXplore", MainLauncher = true, Icon = "@mipmap/icon", ScreenOrientation = Android.Content.PM.ScreenOrientation.Landscape,
 			 Theme = "@android:style/Theme.Black.NoTitleBar.Fullscreen")]
 	public class MenuActivity : Activity
 	{
