@@ -6,7 +6,7 @@ using Android.Graphics;
 
 namespace AngleXplore.Droid
 {
-	[Activity(Label = "AngleXplore", MainLauncher = true, Icon = "@mipmap/icon", ScreenOrientation = Android.Content.PM.ScreenOrientation.Landscape,
+	[Activity(Label = "AngleXplore", MainLauncher = false, Icon = "@mipmap/icon", ScreenOrientation = Android.Content.PM.ScreenOrientation.Landscape,
 	         Theme = "@android:style/Theme.Black.NoTitleBar.Fullscreen")]
 	public class MainActivity : Activity
 	{
@@ -27,6 +27,12 @@ namespace AngleXplore.Droid
 			btnClear.Click += delegate {
 				
 				canvas.clear();
+			};
+			Button btnExit = FindViewById<Button>(Resource.Id.btnExit);
+			btnExit.Click += delegate
+			{
+
+				Finish();
 			};
 
 			Button btnAngles = FindViewById<Button>(Resource.Id.btnAngles);

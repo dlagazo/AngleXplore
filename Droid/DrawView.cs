@@ -42,8 +42,8 @@ namespace AngleXplore.Droid
 			upStatus = false;
 			this.SetBackgroundColor(Color.White);
 			var metrics = Resources.DisplayMetrics;
-			strokeWidth = ConvertPixelsToDp(metrics.WidthPixels) / 30;
-			length = (float)(ConvertPixelsToDp(metrics.HeightPixels) / 1.5);
+			length = (float)(ConvertPixelsToDp(metrics.HeightPixels) / 1.2);
+			strokeWidth = ConvertPixelsToDp(metrics.WidthPixels) / 20;
 
 
 		}
@@ -699,7 +699,9 @@ namespace AngleXplore.Droid
 		Handler handler;
 		public void gameOver()
 		{
-
+			Android.Net.Uri notification = Android.Media.RingtoneManager.GetDefaultUri(Android.Media.RingtoneType.Notification);
+			Android.Media.Ringtone r = Android.Media.RingtoneManager.GetRingtone(context, notification);
+			r.Play();
 
 			Toast.MakeText(context, "Good job, you have created two adjacent angles. Restarting in 5 seconds.", ToastLength.Long).Show();
 
