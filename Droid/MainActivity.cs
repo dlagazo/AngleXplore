@@ -6,7 +6,7 @@ using Android.Graphics;
 
 namespace AngleXplore.Droid
 {
-	[Activity(Label = "AngleXplore", MainLauncher = false, Icon = "@mipmap/icon", ScreenOrientation = Android.Content.PM.ScreenOrientation.Landscape,
+	[Activity(Label = "AngleXplore", MainLauncher = false, Icon = "@mipmap/icon_big", ScreenOrientation = Android.Content.PM.ScreenOrientation.Landscape,
 	         Theme = "@android:style/Theme.Black.NoTitleBar.Fullscreen")]
 	public class MainActivity : Activity
 	{

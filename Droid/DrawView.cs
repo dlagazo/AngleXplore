@@ -925,6 +925,7 @@ namespace AngleXplore.Droid
 						System.Console.WriteLine("Point1 is being dragged");
 
 					}
+					/*
 					else if (status == 2 && (lockStatus == 4 || lockStatus == 5))
 					{
 						if (lockStatus == 4)
@@ -1024,7 +1025,7 @@ namespace AngleXplore.Droid
 
 
 					}
-
+					*/
 					else if (status == 4 && lockStatus == 0)
 					{
 						float xdiff = pt2.X - e.GetX();
@@ -1058,6 +1059,7 @@ namespace AngleXplore.Droid
 						System.Console.WriteLine("Point2 is being dragged");
 
 					}
+					/*
 					else if (status == 4 && lockStatus != 3 && (lockStatus == 6 || lockStatus == 7))
 					{
 						if (lockStatus == 6)
@@ -1123,7 +1125,7 @@ namespace AngleXplore.Droid
 						System.Console.WriteLine("Point2 is being dragged but locked to a Ray");
 						this.Invalidate();
 
-					}
+					}*/
 					else if (status == 4 && (lockStatus == 5 || lockStatus == 4))
 					{
 						//point 2 being dragged and point 1 is locked to ray 4
@@ -1180,7 +1182,7 @@ namespace AngleXplore.Droid
 						moveStatus = 1;
 						upStatus = false;
 						checkRays();
-
+						/*
 						if (lockStatus == 7)
 						{
 							//Ray 2 is being dragged while Vertex 2 is locked to Ray 1
@@ -1220,7 +1222,7 @@ namespace AngleXplore.Droid
 							pt2b.X = (float)(pt2.X + Math.Cos(ray4Angle * Math.PI / 180) * ray4LenWrtPt2);
 							pt2b.Y = (float)(pt2.Y + Math.Sin(ray4Angle * Math.PI / 180) * ray4LenWrtPt2);
 
-						}
+						}*/
 
 						this.Invalidate();
 
@@ -1252,7 +1254,7 @@ namespace AngleXplore.Droid
 
 
 						checkRays();
-
+						/*
 						if (lockStatus == 7)
 						{
 							//Ray 2 is being dragged while Vertex 2 is locked to it
@@ -1293,6 +1295,7 @@ namespace AngleXplore.Droid
 							pt2b.Y = (float)(pt2.Y + Math.Sin(ray4Angle * Math.PI / 180) * ray4LenWrtPt2);
 
 						}
+						*/
 
 
 						this.Invalidate();
@@ -1461,6 +1464,7 @@ namespace AngleXplore.Droid
 				case MotionEventActions.Up:
 					System.Console.WriteLine("Up");
 					upStatus = true;
+
 					if (status == 2 && lockStatus == 0)
 					{
 						float xdiff = pt1.X - e.GetX();
@@ -1475,7 +1479,7 @@ namespace AngleXplore.Droid
 						pt1.Y = e.GetY();
 						status = 3;
 						Log.Debug("AngleXPlore", "status:Point1 moved");
-
+						/*
 						if (Math.Abs(pt1.X - pt2.X) < 5 && Math.Abs(pt1.Y - pt2.Y) < 5)
 						{
 							float vXdiff = pt2.X - pt1.X;
@@ -1509,10 +1513,12 @@ namespace AngleXplore.Droid
 							}
 
 						}
+						*/
 						this.Invalidate();
 
 
 					}
+
 					else if (status == 4 && lockStatus == 0)
 					{
 						float xdiff = pt2.X - e.GetX();
@@ -1527,7 +1533,7 @@ namespace AngleXplore.Droid
 
 						pt2.Y = e.GetY();
 						status = 5;
-
+						/*
 						if (Math.Abs(pt1.X - pt2.X) < 5 && Math.Abs(pt1.Y - pt2.Y) < 5)
 						{
 							float vXdiff = pt2.X - pt1.X;
@@ -1563,7 +1569,7 @@ namespace AngleXplore.Droid
 							}
 
 						}
-
+						*/
 						Log.Debug("AngleXPlore", "status:Point2 moved");
 						this.Invalidate();
 
@@ -1571,6 +1577,7 @@ namespace AngleXplore.Droid
 
 
 					}
+
 					else if (status == 6)
 					{
 
