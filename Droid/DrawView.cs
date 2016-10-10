@@ -23,7 +23,7 @@ namespace AngleXplore.Droid
 		public int rayStatus = 0; //1-ray2&ray3, ;
 		public bool upStatus = false;
 		public bool isGameOver = false;
-		float strokeWidth = 100, length = 100, multiplier = 1.2f;
+		float strokeWidth = 100, length = 100, multiplier = 1.2f, width = 0;
 		PointF pt1, pt2, pt1a, pt1b, pt2a, pt2b;
 		public bool showAngles = false;
 		Context context;
@@ -44,7 +44,7 @@ namespace AngleXplore.Droid
 			var metrics = Resources.DisplayMetrics;
 			length = (float)(ConvertPixelsToDp(metrics.HeightPixels) / 1.2);
 			strokeWidth = ConvertPixelsToDp(metrics.WidthPixels) / 20;
-
+			width = ConvertPixelsToDp(metrics.WidthPixels) / 2;
 
 		}
 
@@ -314,12 +314,12 @@ namespace AngleXplore.Droid
 				paint.SetStyle(Paint.Style.Fill);
 				paint.Color = Color.LightGreen;
 				//paint.StrokeWidth = (float)(strokeWidth / 2.5);
-				paint.TextSize = 30;
+				paint.TextSize = length/5;
 				paint.TextAlign = Paint.Align.Left;
 
-				canvas.DrawText(getAngles().Split(',')[0], 50, 50, paint);
+				canvas.DrawText(getAngles().Split(',')[0], 50, length/5, paint);
 				paint.Color = Color.LightBlue;
-				canvas.DrawText(getAngles().Split(',')[1], 300, 50, paint);
+				canvas.DrawText(getAngles().Split(',')[1], width * 2, length/5, paint);
 			}
 
 
