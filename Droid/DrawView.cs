@@ -23,7 +23,7 @@ namespace AngleXplore.Droid
 		public int rayStatus = 0; //1-ray2&ray3, ;
 		public bool upStatus = false;
 		public bool isGameOver = false;
-		float strokeWidth = 100, length = 100, multiplier = 1.2f, width = 0;
+		public float strokeWidth = 100, length = 100, multiplier = 1.2f, width = 0;
 		PointF pt1, pt2, pt1a, pt1b, pt2a, pt2b;
 		public bool showAngles = false;
 		Context context;
@@ -705,6 +705,14 @@ namespace AngleXplore.Droid
 
 			Toast.MakeText(context, "Good job, you have created two adjacent angles. Restarting in 5 seconds.", ToastLength.Long).Show();
 
+			try
+			{
+				timer.Enabled = false;
+				timer.Close();
+			}
+			catch
+			{
+			}
 			timer = new System.Timers.Timer();
 			timer.Interval = 1000;
 			timer.Elapsed += OnTimedEvent;

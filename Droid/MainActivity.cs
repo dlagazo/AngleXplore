@@ -57,6 +57,33 @@ namespace AngleXplore.Droid
 				}
 				
 			};
+
+			Button btnUp = FindViewById<Button>(Resource.Id.btnUp);
+			btnUp.Click += delegate
+			{
+
+				canvas.strokeWidth += 10;
+				canvas.length += 10;
+				canvas.multiplier += .1f;
+
+					canvas.Invalidate();
+
+
+			};
+
+			Button btnDown = FindViewById<Button>(Resource.Id.btnDown);
+			btnDown.Click += delegate
+			{
+
+				canvas.strokeWidth -= 10;
+				canvas.length -= 10;
+				canvas.multiplier -= .1f;
+
+				canvas.Invalidate();
+
+
+			};
+
 		}
 	}
 }

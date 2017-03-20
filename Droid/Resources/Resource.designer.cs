@@ -50,11 +50,17 @@ namespace AngleXplore.Droid
 			// aapt resource value: 0x7f050001
 			public const int btnClear = 2131034113;
 			
-			// aapt resource value: 0x7f050003
-			public const int btnExit = 2131034115;
-			
 			// aapt resource value: 0x7f050004
-			public const int btnStart = 2131034116;
+			public const int btnDown = 2131034116;
+			
+			// aapt resource value: 0x7f050005
+			public const int btnExit = 2131034117;
+			
+			// aapt resource value: 0x7f050006
+			public const int btnStart = 2131034118;
+			
+			// aapt resource value: 0x7f050003
+			public const int btnUp = 2131034115;
 			
 			// aapt resource value: 0x7f050000
 			public const int llCanvas = 2131034112;
