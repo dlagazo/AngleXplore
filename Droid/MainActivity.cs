@@ -63,7 +63,7 @@ namespace AngleXplore.Droid
 			{
 
 				canvas.strokeWidth += 10;
-				canvas.length += 10;
+				canvas.length *= 1.2f;
 				canvas.multiplier += .1f;
 
 					canvas.Invalidate();
@@ -76,13 +76,14 @@ namespace AngleXplore.Droid
 			{
 
 				canvas.strokeWidth -= 10;
-				canvas.length -= 10;
+				canvas.length /= 1.2f;
 				canvas.multiplier -= .1f;
 
 				canvas.Invalidate();
 
 
 			};
+
 
 		}
 	}

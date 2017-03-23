@@ -32,12 +32,12 @@
             android:layout_height="match_parent"
             android:id="@+id/btnAngles" />
         <Button
-            android:text="+"
+            android:text=" + "
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/btnUp" />
         <Button
-            android:text="-"
+            android:text=" - "
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/btnDown" />
