@@ -10,17 +10,20 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace AngleXplore.Droid
 {
-	[Activity(Label = "AngleXplore", MainLauncher = true, Icon = "@mipmap/icon_big", ScreenOrientation = Android.Content.PM.ScreenOrientation.Landscape,
+	[Activity(Label = "AngleXplore", Icon = "@mipmap/icon_big", ScreenOrientation = Android.Content.PM.ScreenOrientation.Landscape,
 			 Theme = "@android:style/Theme.Black.NoTitleBar.Fullscreen")]
 	public class MenuActivity : Activity
 	{
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
-			SetContentView(Resource.Layout.Menu);
+            
+            SetContentView(Resource.Layout.Menu);
 			// Create your application here
 			Button btnStart = FindViewById<Button>(Resource.Id.btnStart);
 			btnStart.Click += delegate
@@ -30,5 +33,7 @@ namespace AngleXplore.Droid
 				Finish();
 			};
 		}
-	}
+
+        
+    }
 }

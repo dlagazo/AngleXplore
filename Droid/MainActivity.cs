@@ -3,6 +3,8 @@ using Android.Widget;
 using Android.OS;
 using Android.Views;
 using Android.Graphics;
+using System;
+using System.Threading.Tasks;
 
 namespace AngleXplore.Droid
 {
@@ -12,12 +14,17 @@ namespace AngleXplore.Droid
 	{
 
 		bool show = false;
-		protected override void OnCreate(Bundle savedInstanceState)
+
+        
+
+        protected override void OnCreate(Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
+            
 
-			// Set our view from the "main" layout resource
-			SetContentView(Resource.Layout.Main);
+
+            // Set our view from the "main" layout resource
+            SetContentView(Resource.Layout.Main);
 			DrawView canvas = new DrawView(this);
 
 			LinearLayout llCanvas = FindViewById<LinearLayout>(Resource.Id.llCanvas);
