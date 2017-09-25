@@ -29,9 +29,24 @@ namespace AngleXplore.Droid
 			btnStart.Click += delegate
 			{
 
-				StartActivity(typeof(MainActivity));
-				Finish();
-			};
+                EditText etAngle = FindViewById<EditText>(Resource.Id.etAngle);
+                int angle = int.Parse(etAngle.Text);
+                if(angle >= 90 && angle <=180)
+                {
+                    var activity2 = new Intent(this, typeof(MainActivity));
+                    activity2.PutExtra("angle", angle);
+                    StartActivity(activity2);
+
+                    //StartActivity(typeof(MainActivity));
+                    Finish();
+                }
+                else
+                {
+                    Toast.MakeText(this, "Please input an angle between 90 and 180 degrees", ToastLength.Long).Show();
+
+                }
+
+            };
 		}
 
         

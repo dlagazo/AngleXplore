@@ -23,6 +23,7 @@ namespace AngleXplore.Droid
 		public int rayStatus = 0; //1-ray2&ray3, ;
 		public bool upStatus = false;
 		public bool isGameOver = false;
+        public int angle = 180;
 		public float strokeWidth = 100, length = 100, multiplier = 1.2f, width = 0;
 		PointF pt1, pt2, pt1a, pt1b, pt2a, pt2b;
 		public bool showAngles = false;
@@ -158,10 +159,15 @@ namespace AngleXplore.Droid
 				Log.Debug("AngleXPlore", "status:1");
 
 				Random rand = new Random(System.DateTime.UtcNow.Millisecond);
-				int ray1angle = -135;
-				int ray2angle = -(rand.Next()%120);
-				int ray3angle = rand.Next()%120;
-				int ray4angle = 135;
+
+                int angle1 = -(rand.Next() % (angle - 30));
+                int angle2 = (angle - Math.Abs(angle1));
+                //int ang1 = -(rand.Next()%angle);
+
+                int ray1angle = -90;// -135;
+                int ray2angle = angle1 - 90; //-(rand.Next()%120);
+                int ray3angle = angle2 + 90;
+                int ray4angle = 90;//135;
 
 
 
@@ -703,20 +709,18 @@ namespace AngleXplore.Droid
 			Android.Media.Ringtone r = Android.Media.RingtoneManager.GetRingtone(context, notification);
 			r.Play();
 
-			Toast.MakeText(context, "Good job, you have created two adjacent angles. Restarting in 5 seconds.", ToastLength.Long).Show();
+            //Toast.MakeText(context, "Good job, you have created two adjacent angles. Restarting in 5 seconds.", ToastLength.Long).Show();
+            Android.App.AlertDialog.Builder dialog = new AlertDialog.Builder(Context);
+            AlertDialog alert = dialog.Create();
+            alert.SetTitle("Congratulations");
+            alert.SetMessage("You have created two adjacent angles with a total of " + angle + " degrees");
+            alert.SetButton("OK", (c, ev) =>
+            {
+                Application.SynchronizationContext.Post(_ => { clear(); }, null);
 
-			try
-			{
-				timer.Enabled = false;
-				timer.Close();
-			}
-			catch
-			{
-			}
-			timer = new System.Timers.Timer();
-			timer.Interval = 1000;
-			timer.Elapsed += OnTimedEvent;
-			timer.Enabled = true;
+            });
+            alert.Show();
+            
 
 
 		}

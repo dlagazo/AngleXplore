@@ -40,6 +40,8 @@ namespace AngleXplore.Droid
             
             await Task.Delay(2000); // Simulate a bit of startup work.
             StartActivity(new Intent(Application.Context, typeof(Splash5Activity)));
+            Finish();
+
         }
 
     }

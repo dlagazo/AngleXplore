@@ -56,11 +56,14 @@ namespace AngleXplore.Droid
 			// aapt resource value: 0x7f050007
 			public const int btnExit = 2131034119;
 			
-			// aapt resource value: 0x7f050008
-			public const int btnStart = 2131034120;
+			// aapt resource value: 0x7f050009
+			public const int btnStart = 2131034121;
 			
 			// aapt resource value: 0x7f050005
 			public const int btnUp = 2131034117;
+			
+			// aapt resource value: 0x7f050008
+			public const int etAngle = 2131034120;
 			
 			// aapt resource value: 0x7f050001
 			public const int ivIntro = 2131034113;

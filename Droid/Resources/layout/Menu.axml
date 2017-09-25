@@ -18,10 +18,33 @@
         android:textColor="@android:color/@android:color/background_dark"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content" />
-    <Button
+    <LinearLayout
+      android:orientation="horizontal"
+      android:layout_height="wrap_content"
+      android:layout_width="wrap_content">
+      <TextView
+        android:text="Angle sum:"
+        android:textSize="50dp"
+        android:textColor="@android:color/@android:color/background_dark"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+      <EditText
+        android:text="180"
+        android:textSize="50dp"
+        android:textColor="@android:color/@android:color/background_dark"
+        android:id="@+id/etAngle"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numeric="integer"/>
+      <Button
         android:id="@+id/btnStart"
         android:text="Start"
         android:textSize="50dp"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content" />
+    </LinearLayout>
+    
 </LinearLayout>

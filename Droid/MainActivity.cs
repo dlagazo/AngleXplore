@@ -25,8 +25,9 @@ namespace AngleXplore.Droid
 
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
-			DrawView canvas = new DrawView(this);
-
+            int angle = Intent.GetIntExtra("angle", 120);
+            DrawView canvas = new DrawView(this);
+            canvas.angle = angle;
 			LinearLayout llCanvas = FindViewById<LinearLayout>(Resource.Id.llCanvas);
 			llCanvas.AddView(canvas);
 
